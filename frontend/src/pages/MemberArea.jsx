@@ -144,7 +144,7 @@ function MemberArea() {
                   disabled={isPending}
                 />
                 <button
-                  className="btn-home"
+                  className="text-white px-8 py-3 bg-cyan rounded hover:rounded-full hover:opacity-70 transi duration-200"
                   type="submit"
                   disabled={isPending}
                   // onClick={handleModalOpen}
