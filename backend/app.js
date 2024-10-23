@@ -12,13 +12,13 @@ app.use(cors({ origin: "https://gullak.mildcoders.com", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-const limiter = rateLimit({
-  max: 10000,
-  windowMs: 60 * 60 * 1000,
-  message: "Too many requests from this IP, please try again in an hour",
-});
+// const limiter = rateLimit({
+//   max: 10000,
+//   windowMs: 60 * 60 * 1000,
+//   message: "Too many requests from this IP, please try again in an hour",
+// });
 
-app.use("/api", limiter);
+// app.use("/api", limiter);
 
 const transactionRouter = require("./routes/transactionRoute");
 
