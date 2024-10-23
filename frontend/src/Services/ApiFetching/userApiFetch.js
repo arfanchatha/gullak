@@ -4,7 +4,7 @@ const backendHost = "https://gullak-znz5.onrender.com/api/v1";
 
 const cookieResponse = {
   withCredentials: true,
-  // credentials: "include",
+  credentials: "include",
 };
 
 export const loginUser = async function (data) {

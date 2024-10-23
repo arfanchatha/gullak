@@ -2,7 +2,7 @@ import axios from "axios";
 
 const cookieResponse = {
   withCredentials: true,
-  // credentials: "include",
+  credentials: "include",
 };
 const backendHost = "https://gullak-znz5.onrender.com/api/v1";
 
