@@ -18,7 +18,6 @@ const cookieOptions = {
   ),
   httpOnly: true,
   secure: true,
-  sameSite: "None",
 };
 
 exports.signup = async (req, res) => {
