@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const backendHost = "https://gullak-znz5.onrender.com/api/v1";
 const cookieResponse = {
   withCredentials: true,
-  credentials: "include",
+  // credentials: "include",
 };
+const backendHost = "https://gullak-znz5.onrender.com/api/v1";
 
 export const getAllCommettis = function () {
   try {

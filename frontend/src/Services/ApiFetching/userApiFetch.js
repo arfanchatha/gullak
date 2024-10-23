@@ -1,14 +1,6 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 
 const backendHost = "https://gullak-znz5.onrender.com/api/v1";
-
-const api = axios.create({
-  baseURL: { backendHost },
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
 
 const cookieResponse = {
   withCredentials: true,
@@ -17,11 +9,15 @@ const cookieResponse = {
 
 export const loginUser = async function (data) {
   try {
-    const response = await axios.post(`${backendHost}/users/login`, data);
+    const response = await axios.post(
+      `${backendHost}/users/login`,
+      data,
+      cookieResponse
+    );
 
     return response;
   } catch (err) {
-    console.log("error: ", err);
+    console.log(err);
     throw new Error(err?.response?.data.message);
   }
 };
@@ -32,7 +28,6 @@ export const logout = async function () {
       `${backendHost}/users/logout`,
       cookieResponse
     );
-
     return response;
   } catch (err) {
     throw new Error(err?.response.data.message);
@@ -41,7 +36,11 @@ export const logout = async function () {
 
 export const signUpUser = async function (data) {
   try {
-    const response = await axios.post(`${backendHost}/users/signup`, data);
+    const response = await axios.post(
+      `${backendHost}/users/signup`,
+      data,
+      cookieResponse
+    );
 
     return response;
   } catch (err) {

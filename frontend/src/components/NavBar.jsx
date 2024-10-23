@@ -7,7 +7,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useGlobalContextProps } from "../hooks/useGlobalContextProps";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { logout } from "../Services/ApiFetching/userApiFetch";
-import Cookies from "js-cookie";
 
 import toast from "react-hot-toast";
 
@@ -23,7 +22,6 @@ function NavBar() {
   const { mutate } = useMutation({
     mutationFn: logout,
     onSuccess: (data) => {
-      Cookies.remove("jwt");
       setIsLoggedIn(null);
       setJwt(null);
       toast.success("Logged out successfully");

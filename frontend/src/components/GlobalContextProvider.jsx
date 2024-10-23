@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { userMe } from "../Services/ApiFetching/userApiFetch";
 
+const backendHost = "https://gullak-znz5.onrender.com/api/v1";
+
 function GlobalContextProvider({ children }) {
   const [jwt, setJwt] = useState(getCookie("jwt"));
   const {
@@ -47,6 +49,7 @@ function GlobalContextProvider({ children }) {
         setJwt,
         userName: currentUser?.name,
         loggedInUser,
+        backendHost,
       }}
     >
       {children}
