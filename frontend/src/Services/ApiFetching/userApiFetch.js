@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const backendHost = "https://gullak-znz5.onrender.com/api/v1";
 
@@ -16,11 +17,15 @@ const cookieResponse = {
 
 export const loginUser = async function (data) {
   try {
-    const response = await axios.post(
-      `${backendHost}/users/login`,
-      data,
-      cookieResponse
-    );
+    const response = await axios.post(`${backendHost}/users/login`, data);
+
+    Cookies.set("access_token", response.token, {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+      secure: true,
+    });
 
     return response;
   } catch (err) {
@@ -30,10 +35,15 @@ export const loginUser = async function (data) {
 
 export const logout = async function () {
   try {
-    const response = await axios.get(
-      `${backendHost}/users/logout`,
-      cookieResponse
-    );
+    const response = await axios.get(`${backendHost}/users/logout`);
+
+    Cookies.set("access_token", response.token, {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+      secure: true,
+    });
     return response;
   } catch (err) {
     throw new Error(err?.response.data.message);

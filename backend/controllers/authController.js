@@ -17,7 +17,7 @@ const cookieOptions = {
     Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
   ),
 
-  httpOnly: false,
+  httpOnly: true,
   secure: false,
 };
 
@@ -67,10 +67,10 @@ exports.login = async (req, res, next) => {
     }
 
     const token = signJWT({ id: user._id, name: user.name, role: user.role });
-    console.log("hitted");
-    res.cookie("jwt", token, cookieOptions);
+    console.log("hitted sign in");
+    // res.cookie("jwt", token, cookieOptions);
 
-    res.status(200).json({ status: "success", message: "logged in" });
+    res.status(200).json({ status: "success", message: "logged in", token });
   } catch (err) {
     res.status(400).json({ status: "fail", message: err.message });
   }
@@ -83,11 +83,11 @@ exports.logout = (req, res) => {
   res.cookie("jwt", token, {
     expires: new Date(Date.now() + 3 * 1000),
 
-    httpOnly: false,
+    httpOnly: true,
     secure: false,
   });
 
-  res.status(200).json({ message: "success" });
+  res.status(200).json({ message: "success", token });
 };
 
 exports.protect = async (req, res, next) => {
