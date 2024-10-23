@@ -1,0 +1,36 @@
+# Ignore all data directories at any level
+data/
+**/data/
+
+# Ignore specific data subdirectories
+logs/
+output/
+tmp/
+
+# Ignore any file that starts with 'data' in its name
+data*.csv
+data*.json
+data*.txt
+
+# Ignore files in a specific data directory
+data/*.csv
+data/*.json
+dev-data/
+
+
+
+# Ignore environment-specific files
+.env
+.env.local
+config.env
+
+# Node.js specific ignore (if applicable)
+node_modules/
+npm-debug.log
+
+
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
