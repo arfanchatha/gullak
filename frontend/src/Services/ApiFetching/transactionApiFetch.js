@@ -15,7 +15,7 @@ export const postTransaction = async (data) => {
       bodyData,
       {
         withCredentials: true,
-        credentials: "include",
+        // credentials: "include",
       }
     );
   } catch (error) {
