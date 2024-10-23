@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useGlobalContextProps } from "../hooks/useGlobalContextProps";
 import { getCookie } from "../Services/helperFunctions";
+import Cookies from "js-cookie";
 import {
   FormSubmitButton,
   InputFieldPassword,
@@ -21,9 +22,10 @@ function Login({ handleSignUpModal, handleClose }) {
   const { mutate, data, isPending, isError, error } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      getUpdateCookieData(getCookie("jwt"));
+      Cookies.set("jwt", data.data.token, { expires: 7 });
       toast.success(`Logged in successfuly`);
       if (data?.status === 200) {
+        getUpdateCookieData(getCookie("jwt"));
         navigate("/adminarea");
         handleClose();
       }

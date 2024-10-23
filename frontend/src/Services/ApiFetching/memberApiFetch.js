@@ -3,7 +3,7 @@ import axios from "axios";
 const backendHost = "https://gullak-znz5.onrender.com/api/v1";
 const cookieResponse = {
   withCredentials: true,
-  credentials: "include",
+  // credentials: "include",
 };
 
 export const searchMember = async function (formData) {
@@ -11,7 +11,8 @@ export const searchMember = async function (formData) {
     const { mobile, cnic } = formData;
 
     const response = await axios.get(
-      `${backendHost}/transactions/find-participant-with-commetti/${mobile}/${cnic}`
+      `${backendHost}/transactions/find-participant-with-commetti/${mobile}/${cnic}`,
+      cookieResponse
     );
     return response;
   } catch (err) {

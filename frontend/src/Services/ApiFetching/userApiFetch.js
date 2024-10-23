@@ -12,38 +12,27 @@ const api = axios.create({
 
 const cookieResponse = {
   withCredentials: true,
-  credentials: "include",
+  // credentials: "include",
 };
 
 export const loginUser = async function (data) {
   try {
     const response = await axios.post(`${backendHost}/users/login`, data);
 
-    Cookies.set("access_token", response.token, {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-    });
-
     return response;
   } catch (err) {
+    console.log("error: ", err);
     throw new Error(err?.response?.data.message);
   }
 };
 
 export const logout = async function () {
   try {
-    const response = await axios.get(`${backendHost}/users/logout`);
+    const response = await axios.get(
+      `${backendHost}/users/logout`,
+      cookieResponse
+    );
 
-    Cookies.set("access_token", response.token, {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-    });
     return response;
   } catch (err) {
     throw new Error(err?.response.data.message);
@@ -52,11 +41,7 @@ export const logout = async function () {
 
 export const signUpUser = async function (data) {
   try {
-    const response = await axios.post(
-      `${backendHost}/users/signup`,
-      data,
-      cookieResponse
-    );
+    const response = await axios.post(`${backendHost}/users/signup`, data);
 
     return response;
   } catch (err) {

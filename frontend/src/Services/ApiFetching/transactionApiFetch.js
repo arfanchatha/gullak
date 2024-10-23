@@ -9,7 +9,6 @@ const cookieResponse = {
 export const postTransaction = async (data) => {
   try {
     const { commetti, ...bodyData } = data;
-    console.log(commetti);
 
     const response = await axios.post(
       `${backendHost}/commetti/${commetti}/transactions`,
