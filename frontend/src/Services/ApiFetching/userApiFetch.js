@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const backendHost = "http://127.0.0.1:3005/api/v1";
+const backendHost = "https://gullak-znz5.onrender.com/api/v1";
 
 const api = axios.create({
   baseURL: { backendHost },
