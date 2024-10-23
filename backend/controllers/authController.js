@@ -71,8 +71,6 @@ exports.login = async (req, res, next) => {
 
     res.cookie("jwt", token, cookieOptions);
 
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-
     res.status(200).json({ status: "success", message: "logged in" });
   } catch (err) {
     res.status(400).json({ status: "fail", message: err.message });
