@@ -22,12 +22,12 @@ function Login({ handleSignUpModal, handleClose }) {
   const { mutate, data, isPending, isError, error } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      Cookies.set("jwt", data?.data.token, {
-        // httpOnly: true,
+      Cookies.set("jwt", token, {
+        expires: 7,
         secure: true,
         sameSite: "None",
-        // path: "/",
-        expires: 5,
+        path: "/",
+        domain: ".mildcoders.com",
       });
 
       if (data?.status === 200) {
