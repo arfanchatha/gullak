@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const backendHost = "https://gullakapi.mildcoders.com/api/v1";
+const backendHost = "https://api.gullak.mildcoders.com/api/v1";
 
 const cookieResponse = {
   withCredentials: true,
