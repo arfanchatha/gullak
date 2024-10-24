@@ -23,7 +23,7 @@ function Login({ handleSignUpModal, handleClose }) {
     mutationFn: loginUser,
     onSuccess: (data) => {
       Cookies.set("jwt", data?.data.token, {
-        httpOnly: true,
+        // httpOnly: true,
         secure: true,
         // sameSite: "None",
         path: "/",
