@@ -4,7 +4,7 @@ const cookieResponse = {
   withCredentials: true,
   credentials: "include",
 };
-const backendHost = "https://gullak-znz5.onrender.com/api/v1";
+const backendHost = "https://gullakapi.mildcoders.com/api/v1";
 
 export const postTransaction = async (data) => {
   try {
