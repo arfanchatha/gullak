@@ -9,12 +9,12 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors({ origin: "https://gullak.mildcoders.com", credentials: true }));
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://gullak.mildcoders.com");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  console.log("Response Headers: ", res.getHeaders());
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "https://gullak.mildcoders.com");
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   console.log("Response Headers: ", res.getHeaders());
+//   next();
+// });
 
 app.use(express.json());
 app.use(cookieParser());

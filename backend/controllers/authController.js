@@ -71,7 +71,7 @@ exports.login = async (req, res, next) => {
 
     res.cookie("jwt", token, cookieOptions);
 
-    res.status(200).json({ status: "success", message: "logged in" });
+    res.status(200).json({ status: "success", message: "logged in", token });
   } catch (err) {
     res.status(400).json({ status: "fail", message: err.message });
   }
@@ -84,11 +84,11 @@ exports.logout = (req, res) => {
   res.cookie("jwt", token, {
     expires: new Date(Date.now() + 3 * 1000),
 
-    httpOnly: false,
-    secure: false,
+    httpOnly: true,
+    secure: true,
   });
 
-  res.status(200).json({ message: "success" });
+  res.status(200).json({ message: "success", token });
 };
 
 exports.protect = async (req, res, next) => {

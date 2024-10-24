@@ -1,10 +1,17 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const backendHost = "https://gullak-znz5.onrender.com/api/v1";
 
 const cookieResponse = {
   withCredentials: true,
   credentials: "include",
+};
+
+const cookieOptions = {
+  httpOnly: true,
+  secure: true,
+  expires: 5,
 };
 
 export const loginUser = async function (data) {
@@ -14,6 +21,9 @@ export const loginUser = async function (data) {
       data,
       cookieResponse
     );
+    if (response.status === 200) {
+      Cookies.set("jwt", response.data.token, cookieOptions);
+    }
 
     return response;
   } catch (err) {
@@ -28,6 +38,7 @@ export const logout = async function () {
       `${backendHost}/users/logout`,
       cookieResponse
     );
+    if (response.status === 200) Cookies.remove("jwt");
     return response;
   } catch (err) {
     throw new Error(err?.response.data.message);
