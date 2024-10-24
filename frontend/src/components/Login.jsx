@@ -22,7 +22,7 @@ function Login({ handleSignUpModal, handleClose }) {
   const { mutate, data, isPending, isError, error } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      Cookies.set("jwt", token, {
+      Cookies.set("jwt", data.data.token, {
         expires: 7,
         secure: true,
         sameSite: "None",
