@@ -26,10 +26,12 @@ function Login({ handleSignUpModal, handleClose }) {
         httpOnly: true,
         secure: true,
         sameSite: "None",
+        path: "/",
         expires: 5,
       });
+      console.log(Cookies.get("jwt"));
       if (data?.status === 200) {
-        getUpdateCookieData(getCookie("jwt"));
+        getUpdateCookieData(Cookies.get("jwt"));
         toast.success(`Logged in successfuly`);
         navigate("/adminarea");
         handleClose();

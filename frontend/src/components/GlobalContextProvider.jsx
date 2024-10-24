@@ -1,14 +1,14 @@
-import { getCookie } from "../Services/helperFunctions";
 import { jwtDecode } from "jwt-decode";
 import GlobalContext from "./GlobalContext";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { userMe } from "../Services/ApiFetching/userApiFetch";
+import Cookies from "js-cookie";
 
 const backendHost = "https://gullak-znz5.onrender.com/api/v1";
 
 function GlobalContextProvider({ children }) {
-  const [jwt, setJwt] = useState(getCookie("jwt"));
+  const [jwt, setJwt] = useState(Cookies.get("jwt"));
   const {
     data: user,
     error,
