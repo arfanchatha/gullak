@@ -21,9 +21,9 @@ export const loginUser = async function (data) {
       data,
       cookieResponse
     );
-    if (response.status === 200) {
-      Cookies.set("jwt", response.data.token, cookieOptions);
-    }
+    // if (response.status === 200) {
+    //   Cookies.set("jwt", response.data.token, cookieOptions);
+    // }
 
     return response;
   } catch (err) {

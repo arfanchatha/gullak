@@ -13,6 +13,7 @@ import {
   InputFieldPassword,
   InputFieldSingle,
 } from "../UI/FormComponents";
+import Cookies from "js-cookie";
 
 function Login({ handleSignUpModal, handleClose }) {
   const navigate = useNavigate();
@@ -21,6 +22,11 @@ function Login({ handleSignUpModal, handleClose }) {
   const { mutate, data, isPending, isError, error } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
+      Cookies.set("jwt", response.data.token, {
+        httpOnly: true,
+        secure: true,
+        expires: 5,
+      });
       if (data?.status === 200) {
         getUpdateCookieData(getCookie("jwt"));
         toast.success(`Logged in successfuly`);
