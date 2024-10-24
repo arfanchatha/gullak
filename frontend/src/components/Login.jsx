@@ -25,6 +25,7 @@ function Login({ handleSignUpModal, handleClose }) {
       Cookies.set("jwt", data?.data.token, {
         httpOnly: true,
         secure: true,
+        sameSite: "None",
         expires: 5,
       });
       if (data?.status === 200) {

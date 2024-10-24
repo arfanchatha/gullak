@@ -69,7 +69,7 @@ exports.login = async (req, res, next) => {
     const token = signJWT({ id: user._id, name: user.name, role: user.role });
     console.log("hitted log in");
 
-    res.cookie("jwt", token, cookieOptions);
+    // res.cookie("jwt", token, cookieOptions);
 
     res.status(200).json({ status: "success", message: "logged in", token });
   } catch (err) {
@@ -81,12 +81,12 @@ exports.logout = (req, res) => {
   const token = jwt.sign({ id: "loggedout" }, "loggedout", {
     expiresIn: 1,
   });
-  res.cookie("jwt", token, {
-    expires: new Date(Date.now() + 3 * 1000),
+  // res.cookie("jwt", token, {
+  //   expires: new Date(Date.now() + 3 * 1000),
 
-    httpOnly: true,
-    secure: true,
-  });
+  //   httpOnly: true,
+  //   secure: true,
+  // });
 
   res.status(200).json({ message: "success", token });
 };
