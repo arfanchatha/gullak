@@ -35,14 +35,14 @@ function Commetti() {
         <div className="flex justify-center md:justify-start space-x-10">
           <MenuNavButton
             title="In progress"
-            activeTab={activeTab.btn1}
+            activeTab={activeTab.btn1 === "active"}
             handleTabClick={() => handleTabClick("btn1")}
           />
           {loggedInUser?.role === "admin" && (
             <>
               <MenuNavButton
                 title="Completed"
-                activeTab={activeTab.btn2}
+                activeTab={activeTab.btn2 === "active"}
                 handleTabClick={() => handleTabClick("btn2")}
               />
 

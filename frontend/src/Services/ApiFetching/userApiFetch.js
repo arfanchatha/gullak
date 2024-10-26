@@ -1,29 +1,42 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const backendHost = "https://api.gullak.mildcoders.com/api/v1";
+import { backendHost } from "../helperFunctions";
+
+const backendAPI = backendHost();
 
 const cookieResponse = {
   withCredentials: true,
   credentials: "include",
 };
 
-const cookieOptions = {
-  httpOnly: true,
-  secure: true,
-  expires: 5,
-};
+let cookieOptions;
+
+if (import.meta.env.VITE_NODE_ENV === "development") {
+  cookieOptions = {
+    expires: 5,
+    secure: false,
+    path: "/",
+  };
+} else if (import.meta.env.VITE_NODE_ENV === "production") {
+  cookieOptions = {
+    expires: 5,
+    secure: true,
+    sameSite: "None",
+    path: "/",
+    domain: import.meta.env.VITE_DOMAIN,
+  };
+}
 
 export const loginUser = async function (data) {
   try {
     const response = await axios.post(
-      `${backendHost}/users/login`,
+      `${backendAPI}api/v1/users/login`,
       data,
       cookieResponse
     );
-    // if (response.status === 200) {
-    //   Cookies.set("jwt", response.data.token, cookieOptions);
-    // }
+
+    Cookies.set("jwt", response?.data.token, cookieOptions);
 
     return response;
   } catch (err) {
@@ -32,23 +45,10 @@ export const loginUser = async function (data) {
   }
 };
 
-export const logout = async function () {
-  try {
-    const response = await axios.get(
-      `${backendHost}/users/logout`,
-      cookieResponse
-    );
-    if (response.status === 200) Cookies.remove("jwt");
-    return response;
-  } catch (err) {
-    throw new Error(err?.response.data.message);
-  }
-};
-
 export const signUpUser = async function (data) {
   try {
     const response = await axios.post(
-      `${backendHost}/users/signup`,
+      `${backendAPI}api/v1/users/signup`,
       data,
       cookieResponse
     );
@@ -61,7 +61,7 @@ export const signUpUser = async function (data) {
 
 export const userMe = async function (data) {
   try {
-    const response = await axios.get(`${backendHost}/users/me`, cookieResponse);
+    const response = await axios.get(`${backendAPI}/users/me`, cookieResponse);
 
     return response;
   } catch (err) {
@@ -71,7 +71,10 @@ export const userMe = async function (data) {
 
 export const getAdminAssistants = async () => {
   try {
-    const response = await axios.get(`${backendHost}/users`, cookieResponse);
+    const response = await axios.get(
+      `${backendAPI}api/v1/users`,
+      cookieResponse
+    );
     return response;
   } catch (err) {
     console.log(err);

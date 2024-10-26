@@ -108,7 +108,6 @@ function MemberArea() {
 
   return (
     <div className=" mx-auto justify-center h-screen items-center px-10 lg:max-w-[1300px]">
-      <h2 className="text-center font-semibold text-2xl">Member Data</h2>
       <div className="flex  flex-col md:flex-row p-6 justify-center md:space-x-5 space-y-6 md:space-y-0">
         <div className="flex flex-col  mt-6 space-y-6 md:w-1/2">
           <div className="  py-6 px-10 border rounded-xl shadow-lg shadow-gray-500 ">

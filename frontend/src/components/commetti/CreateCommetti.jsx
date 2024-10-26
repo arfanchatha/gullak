@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import ErrorInForm from "../../UI/ErrorInForm";
@@ -12,6 +12,7 @@ import MultiSelect from "./MultiSelect";
 import { getAdminAssistants } from "../../Services/ApiFetching/userApiFetch";
 
 function CreateCommetti({ handleClose, isOpen, autoCloseModal }) {
+  const queryClient = useQueryClient();
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [selectedAssistans, setSelectedAssistans] = useState([]);
 
@@ -26,6 +27,7 @@ function CreateCommetti({ handleClose, isOpen, autoCloseModal }) {
     onSuccess: (data) => {
       toast.success(`Commetti successfuly created`);
       reset();
+      queryClient.invalidateQueries("getAllCommettis");
       autoCloseModal && handleClose();
     },
     onError: (err) => {},
@@ -72,14 +74,14 @@ function CreateCommetti({ handleClose, isOpen, autoCloseModal }) {
 
   const handleMembersSelectionChange = (selectedItems) => {
     setSelectedMembers(
-      selectedItems.map((item) => {
+      selectedItems?.map((item) => {
         return item.id;
       })
     );
   };
   const handleAssistantsSelectionChange = (selectedItems) => {
     setSelectedAssistans(
-      selectedItems.map((item) => {
+      selectedItems?.map((item) => {
         return item.id;
       })
     );

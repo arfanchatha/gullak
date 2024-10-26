@@ -32,6 +32,12 @@ router
 router
   .route("/stats")
   .get(authController.protect, transactionController.getTransactionsStats);
+router
+  .route("/stats/:commettiId")
+  .get(
+    authController.protect,
+    transactionController.getSingleCommettiTransactionsStats
+  );
 
 router
   .route("/find-participant-with-commetti/:mobile/:cnic")

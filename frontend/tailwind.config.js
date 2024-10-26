@@ -15,6 +15,10 @@ export default {
       fontFamily: { sans: ["Poppins", "sans-serif"] },
 
       spacing: { 180: "32rem" },
+      scale: {
+        102: "1.02",
+        103: "1.03",
+      },
     },
   },
 

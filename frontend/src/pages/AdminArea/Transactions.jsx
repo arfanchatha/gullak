@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PostTransactions from "../../components/commetti/PostTransactions";
 import Modal from "../../components/Modal";
-import { CreateButton } from "../../UI/UISmallComponents";
+import { CreateButton, SelectFilter } from "../../UI/UISmallComponents";
 import { getAllCommettis } from "../../Services/ApiFetching/commettiApiFetch";
 import { useQuery } from "@tanstack/react-query";
 import { TransactionList } from "../../UI/DisplayList";
+import { useGlobalContextProps } from "../../hooks/useGlobalContextProps";
+
+const selectData = [
+  { select: "In progress", value: "inProgress" },
+  { select: "Completed", value: "completed" },
+  { select: "All", value: "all" },
+];
 
 function Transactions() {
   const [isOpen, setIsOpen] = useState(false);
   const [autoCloseModal, setAutoCloseModal] = useState(true);
   const [searchTransaction, setSearchTransaction] = useState("");
+  const [filterTrans, setFilterTrans] = useState("inProgress");
+  const { queryAllCommettis } = useGlobalContextProps();
 
-  const {
-    data,
-    error: commettisError,
-    isPending: commettisLoading,
-  } = useQuery({
-    queryKey: ["getAllCommettis"],
-    queryFn: getAllCommettis,
-  });
+  const { data, error, isPending } = queryAllCommettis;
 
   const commettisData = data?.data?.data.commettis;
 
@@ -32,32 +34,32 @@ function Transactions() {
     setIsOpen((open) => !open);
   };
 
-  // function searchByValue(value) {
-  //   return transactions.filter((obj) => {
-  //     return Object.values(obj).some((val) => val == value);
-  //   });
-  // }
-
   function searchByValue(value) {
     return transactions?.filter((obj) => {
       return Object.values(obj).some(
-        (val) => typeof val === "string" && val.includes(value) // Check if value partially matches a string
+        (val) => typeof val === "string" && val.includes(value)
       );
     });
   }
 
   const searched = searchByValue(searchTransaction) || transactions;
-  console.log(searchByValue(searchTransaction));
 
   return (
     <>
-      <div className=" flex flex-col mx-3 md:mx-0">
-        <div className="flex justify-center md:justify-start space-x-10">
-          <button className="px-5 py-3 bg-cyan rounded-full hover:bg-opacity-80">
-            Transactions
-          </button>
+      <div className=" flex flex-col mx-3 md:mx-0 ">
+        <div className="flex flex-col lg:flex-row justify-center md:justify-between space-y-5 lg:space-y-0 lg:space-x-10 items-center ">
+          <div className="flex justify-between lg:justify-start space-x-10">
+            <button className="px-5 py-3 bg-cyan rounded-full hover:bg-opacity-80">
+              Transactions
+            </button>
 
-          <CreateButton title="Post transaction" handleModal={handleModal} />
+            <CreateButton title="Post transaction" handleModal={handleModal} />
+          </div>
+          <SelectFilter
+            data={selectData}
+            handleChange={(e) => setFilterTrans(e.target.value)}
+            label={"Filter by commetti status"}
+          />
         </div>
         <div className=" flex flex-col lg:flex-row justify-between ">
           <div className="p-5 lg:w-2/5">
@@ -71,7 +73,7 @@ function Transactions() {
             </div>
             <div>filter</div>
           </div>
-          <div className="lg:w-3/5 p-5 overflow-y-scroll h-180">
+          <div className="lg:w-3/5 p-5 overflow-y-auto h-180">
             <div className="flex flex-col space-y-3 ">
               {searched?.map((data, index) => (
                 <div key={index}>

@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  heigth: 100vh;
+  height: 100vh;
+  cursor: default;
 }
 
 .btn-home {
@@ -19,4 +20,10 @@ body {
 
 .active {
   @apply border-cyan;
+}
+.member-stats-item {
+  @apply space-y-2 md:space-y-0 flex flex-col md:flex-row justify-between items-center;
+}
+.option-select {
+  @apply text-sm text-gray-600 font-semibold p-2 border rounded-md focus:outline-none bg-inherit cursor-pointer;
 }

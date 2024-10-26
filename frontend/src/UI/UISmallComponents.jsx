@@ -1,9 +1,10 @@
 function MenuNavButton({ activeTab, handleTabClick, title }) {
-  const active = "rounded-full bg-cyan  hover:bg-opacity-80";
+  const active =
+    "rounded-full bg-cyan  hover:bg-opacity-80 shadow-md shadow-black";
   return (
     <button
       className={`px-6 py-3 rounded-full  ${
-        activeTab === "active" ? active : "  border-gray-400 border-b-4"
+        activeTab ? active : "  border-gray-400 border-b-4 border-t"
       }`}
       onClick={handleTabClick}
     >

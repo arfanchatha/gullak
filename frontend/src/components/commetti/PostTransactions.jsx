@@ -1,4 +1,8 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { postTransaction } from "../../Services/ApiFetching/transactionApiFetch";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -9,6 +13,7 @@ import { FormSubmitButton, InputFieldSingle } from "../../UI/FormComponents";
 import { removeNullFromObject } from "../../Services/helperFunctions";
 
 function PostTransactions({ handleClose, autoCloseModal, commettisData }) {
+  const queryClient = useQueryClient();
   const [paymentAmount, setPaymentAmount] = useState("no");
 
   const [selectedCommetti, setSelectedCommetti] = useState("");
@@ -23,6 +28,7 @@ function PostTransactions({ handleClose, autoCloseModal, commettisData }) {
     mutationFn: postTransaction,
     onSuccess: (data) => {
       toast.success(`Transaction posted successfuly`);
+      queryClient.invalidateQueries("getAllCommettis");
       reset();
       autoCloseModal && handleClose();
     },
@@ -73,10 +79,7 @@ function PostTransactions({ handleClose, autoCloseModal, commettisData }) {
           <select
             id="commetti"
             onChange={handleCommettiChange}
-            // {...register("commetti", {
-            //   required: "This field is required",
-            // })}
-            className="text-sm text-gray-600 font-semibold p-2 border rounded-md focus:outline-none bg-inherit"
+            className="option-select"
           >
             <option value="">Select the commetti</option>
             {commettisData?.map((commetti) => (
@@ -97,10 +100,7 @@ function PostTransactions({ handleClose, autoCloseModal, commettisData }) {
             <select
               id="member"
               onChange={handleMemberChange}
-              className="text-sm text-gray-600 font-semibold p-2 border  rounded-md focus:outline-none bg-inherit "
-              // {...register("participant", {
-              //   required: "This field is required",
-              // })}
+              className="option-select"
             >
               <option value="">select the member</option>
               {members &&

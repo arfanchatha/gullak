@@ -75,9 +75,6 @@ exports.getAllTransactions = async (req, res) => {
       .paginate();
 
     const transactions = await apiFeatures.mongoQuery;
-    // .populate("user")
-    // .populate("participant")
-    // .populate("commetti");
 
     res.status(200).json({
       status: "success",
@@ -184,13 +181,48 @@ exports.getTransactionsStats = async (req, res) => {
 
       {
         $group: {
-          _id: "$participantId",
+          _id: "$participant",
           totalReceived: { $sum: "$amount" },
           paidAmount: { $sum: "$paidAmount" },
           months: { $count: {} },
         },
       },
     ]);
+    res.status(200).json({
+      status: "success",
+      data: { stats },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+exports.getSingleCommettiTransactionsStats = async (req, res) => {
+  try {
+    const { commettiId } = req.params;
+    const commettiObjectId = new mongoose.Types.ObjectId(commettiId);
+
+    const stats = await Transaction.aggregate([
+      { $match: { commetti: commettiObjectId } },
+
+      {
+        $group: {
+          _id: "$participant",
+          totalReceived: { $sum: "$amount" },
+          totalPaid: { $sum: "$paidAmount" },
+          numCommettiReceived: { $count: {} },
+        },
+      },
+      {
+        $addFields: {
+          balance: { $subtract: ["$totalReceived", "$totalPaid"] },
+          commettiId,
+        },
+      },
+    ]);
+
     res.status(200).json({
       status: "success",
       data: { stats },

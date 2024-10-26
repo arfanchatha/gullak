@@ -1,17 +1,23 @@
 import axios from "axios";
+import { backendHost } from "../helperFunctions";
+
+const backendAPI = backendHost();
 
 const cookieResponse = {
   withCredentials: true,
   credentials: "include",
 };
-const backendHost = "https://api.gullak.mildcoders.com/api/v1";
 
-export const getAllCommettis = function () {
+export const getAllCommettis = async function ({ queryKey }) {
   try {
-    const response = axios.get(
-      `${backendHost}/commetti?status=inProgress`,
-      cookieResponse
-    );
+    const [, { status }] = queryKey;
+
+    const response = await axios.get(`${backendAPI}api/v1/commetti`, {
+      ...cookieResponse,
+      params: {
+        status,
+      },
+    });
     return response;
   } catch (err) {
     throw new Error(err?.message);
@@ -20,7 +26,7 @@ export const getAllCommettis = function () {
 export const getCommettiWithMembers = function () {
   try {
     const response = axios.get(
-      `${backendHost}/commetti/get-commettis-with-participants`,
+      `${backendAPI}api/v1/commetti/get-commettis-with-participants`,
       cookieResponse
     );
     return response;
@@ -31,7 +37,7 @@ export const getCommettiWithMembers = function () {
 export const createCommetti = function (data) {
   try {
     const response = axios.post(
-      `${backendHost}/commetti`,
+      `${backendAPI}api/v1/commetti`,
       data,
       cookieResponse
     );

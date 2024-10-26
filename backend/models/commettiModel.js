@@ -95,7 +95,7 @@ commettiSchema.pre(/^find/, function (next) {
 commettiSchema.pre(/^find/, function (next) {
   this.populate({
     path: "participant",
-    select: "name mobile",
+    select: "name mobile cnic",
   });
   next();
   s;

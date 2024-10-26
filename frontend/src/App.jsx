@@ -16,6 +16,7 @@ import Commetti from "./pages/AdminArea/Commetti";
 import Transactions from "./pages/AdminArea/Transactions";
 import Members from "./pages/AdminArea/Members";
 import Assistant from "./pages/AdminArea/Assistant";
+import CommettiDetails from "./pages/AdminArea/CommettiDetails";
 
 function App() {
   const queryClient = new QueryClient();
@@ -29,7 +30,11 @@ function App() {
               <Route path="/" element={<Hero />} />
               <Route path="/adminarea" element={<AdminArea />}>
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="commetti" element={<Commetti />} />
+                <Route path="commetti" element={<Commetti />}></Route>
+                <Route
+                  path="commetti/commettidetails/:id"
+                  element={<CommettiDetails />}
+                />
                 <Route path="transactions" element={<Transactions />} />
                 <Route path="members" element={<Members />} />
                 <Route path="assistant" element={<Assistant />} />

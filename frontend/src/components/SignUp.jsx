@@ -36,15 +36,11 @@ function SignUp({ handleLoginModal, handleClose, autoCloseModal }) {
   };
 
   const onSubmit = (data) => {
-    if (loggedInUser.role === "admin") {
+    if (loggedInUser?.role === "admin") {
       mutate({ ...data, admin: loggedInUser.id });
     } else {
       mutate(data);
     }
-  };
-
-  const onError = (errors) => {
-    // console.log(errors);
   };
 
   return (
@@ -52,7 +48,7 @@ function SignUp({ handleLoginModal, handleClose, autoCloseModal }) {
       <form
         action=""
         className="flex flex-col space-y-5"
-        onSubmit={handleSubmit(onSubmit, onError)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex justify-between space-y-3 md:space-y-0 md:space-x-3 w-full flex-col md:flex-row">
           <div className="md:w-1/2">

@@ -8,24 +8,25 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors({ origin: "https://gullak.mildcoders.com", credentials: true }));
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "https://gullak.mildcoders.com");
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   // console.log("Response Headers: ", res.getHeaders());
-//   next();
-// });
-
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "development"
+        ? true
+        : "https://gullak.mildcoders.com",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
-// const limiter = rateLimit({
-//   max: 10000,
-//   windowMs: 60 * 60 * 1000,
-//   message: "Too many requests from this IP, please try again in an hour",
-// });
+const limiter = rateLimit({
+  max: 10000,
+  windowMs: 60 * 60 * 1000,
+  message: "Too many requests from this IP, please try again in an hour",
+});
 
-// app.use("/api", limiter);
+app.use("/api", limiter);
 
 const transactionRouter = require("./routes/transactionRoute");
 
@@ -35,7 +36,7 @@ const userRouter = require("./routes/userRoute");
 const commettiRouter = require("./routes/commettiRoute");
 
 app.use((req, res, next) => {
-  console.log("app.js", req.cookies);
+  // console.log("app.js", req.cookies);
   next();
 });
 

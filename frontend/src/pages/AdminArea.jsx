@@ -11,7 +11,7 @@ import { useGlobalContextProps } from "../hooks/useGlobalContextProps";
 function AdminArea() {
   const { loggedInUser } = useGlobalContextProps();
   return (
-    <div className="mx-auto md:px-6 container flex flex-row min-h-screen md:space-x-6">
+    <div className="mx-auto md:px-6 container flex flex-row  md:space-x-6">
       <div className="hidden md:block md:w-[300px] pt-10 px-3 space-y-5 border-r">
         <h2 className=" pl-6 -space-y-3 font-bold text-2xl">
           <div className="">Welcome to</div>
@@ -99,7 +99,7 @@ function AdminArea() {
           )}
         </ul>
       </div>
-      <div className="w-full py-5 mx-auto">
+      <div className="w-full h-full py-5 mx-auto">
         <Outlet />
       </div>
     </div>

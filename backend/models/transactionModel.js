@@ -37,7 +37,7 @@ transactionSchema.pre(/^find/, function (next) {
 transactionSchema.pre(/^find/, function (next) {
   this.populate({
     path: "commetti",
-    select: "name -participant -user",
+    select: "name status -participant -user",
   });
   next();
 });

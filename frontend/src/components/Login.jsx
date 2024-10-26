@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
 import { loginUser } from "../Services/ApiFetching/userApiFetch";
@@ -13,7 +14,6 @@ import {
   InputFieldPassword,
   InputFieldSingle,
 } from "../UI/FormComponents";
-import Cookies from "js-cookie";
 
 function Login({ handleSignUpModal, handleClose }) {
   const navigate = useNavigate();
@@ -22,14 +22,6 @@ function Login({ handleSignUpModal, handleClose }) {
   const { mutate, data, isPending, isError, error } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      Cookies.set("jwt", data.data.token, {
-        expires: 7,
-        secure: true,
-        sameSite: "None",
-        path: "/",
-        domain: ".mildcoders.com",
-      });
-
       if (data?.status === 200) {
         getUpdateCookieData(Cookies.get("jwt"));
         toast.success(`Logged in successfuly`);
@@ -73,6 +65,8 @@ function Login({ handleSignUpModal, handleClose }) {
           label="Password"
           field="password"
           type="password"
+          passwordShow={passwordShow}
+          handlePasswordShow={() => setPasswordShow((show) => !show)}
         />
 
         <FormSubmitButton

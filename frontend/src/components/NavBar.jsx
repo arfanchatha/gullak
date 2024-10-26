@@ -5,8 +5,6 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useGlobalContextProps } from "../hooks/useGlobalContextProps";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { logout } from "../Services/ApiFetching/userApiFetch";
 import Cookies from "js-cookie";
 
 import toast from "react-hot-toast";
@@ -20,17 +18,6 @@ function NavBar() {
   const navigate = useNavigate();
   const { setIsLoggedIn, setJwt } = useGlobalContextProps();
 
-  const { mutate } = useMutation({
-    mutationFn: logout,
-    onSuccess: (data) => {
-      Cookies.remove("jwt");
-      setIsLoggedIn(null);
-      setJwt(null);
-      toast.success("Logged out successfully");
-      navigate("/");
-    },
-    onError: (error) => {},
-  });
   const { isLoggedIn, userName } = useGlobalContextProps();
 
   const cookieNotExp =
@@ -50,7 +37,11 @@ function NavBar() {
   };
 
   const logoutUser = () => {
-    mutate();
+    Cookies.remove("jwt");
+    setIsLoggedIn(null);
+    setJwt(null);
+    toast.success("Logged out successfully");
+    navigate("/");
   };
 
   return (
@@ -61,7 +52,6 @@ function NavBar() {
             <img
               src="./logo-1.png"
               alt=" gullak logo"
-              // to="/adminarea"
               className="h-12 hover:scale-105 hover:pointer transition duration-300"
             />
           </NavLink>
@@ -79,6 +69,7 @@ function NavBar() {
                 </a>
                 <NavLink
                   onClick={() => logoutUser()}
+                  to="/"
                   className="btn-home hover:cursor-pointer"
                 >
                   Log Out

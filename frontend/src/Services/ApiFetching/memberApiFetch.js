@@ -1,17 +1,19 @@
 import axios from "axios";
+import { backendHost } from "../helperFunctions";
+
+const backendAPI = backendHost();
 
 const cookieResponse = {
   withCredentials: true,
   credentials: "include",
 };
-const backendHost = "https://api.gullak.mildcoders.com/api/v1";
 
 export const searchMember = async function (formData) {
   try {
     const { mobile, cnic } = formData;
 
     const response = await axios.get(
-      `${backendHost}/transactions/find-participant-with-commetti/${mobile}/${cnic}`
+      `${backendAPI}api/v1/transactions/find-participant-with-commetti/${mobile}/${cnic}`
     );
     return response;
   } catch (err) {
@@ -22,7 +24,7 @@ export const searchMember = async function (formData) {
 export const addMember = async (data) => {
   try {
     const response = await axios.post(
-      `${backendHost}/participants`,
+      `${backendAPI}api/v1/participants`,
       data,
       cookieResponse
     );
@@ -34,7 +36,7 @@ export const addMember = async (data) => {
 export const getMembers = async () => {
   try {
     const response = await axios.get(
-      `${backendHost}/participants/onlyparticipants`,
+      `${backendAPI}api/v1/participants/onlyparticipants`,
       cookieResponse
     );
 

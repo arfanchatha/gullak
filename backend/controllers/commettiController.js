@@ -66,7 +66,7 @@ exports.getCommetti = async (req, res, next) => {
       user: req.user._id,
     }).populate({
       path: "transaction",
-      select: "createdAt participant commetti amount month",
+      select: "createdAt participant commetti amount month paidAmount",
     });
 
     if (!commetti) {

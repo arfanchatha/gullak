@@ -55,24 +55,105 @@ function MemberList({ data, index }) {
     </div>
   );
 }
+function MemberStatsList({ data, index }) {
+  const status = data.numCommettiReceived
+    ? data.balance > 0
+      ? " bg-green-300"
+      : " bg-red"
+    : " bg-green-300";
+  return (
+    <div className="border  p-5 relative text-lg w-content  bg-teal-50 rounded-2xl">
+      <div className="flex flex-col ">
+        <div className="member-stats-item ">
+          <div>
+            Name: <span className="font-bold capitalize">{data?.name}</span>
+          </div>
+          <div className="flex flex-col">
+            <span>Mobile: {data.mobile}</span>
+            <span>CNIC: {data.cnic}</span>
+          </div>
+        </div>
+        {data.numCommettiReceived ? (
+          <>
+            <div className="member-stats-item ">
+              <span>
+                Amount received: <span className="">{data.totalReceived}</span>
+              </span>
+              <span>
+                Amount paid:{" "}
+                <span className="font-semibold">{data.totalPaid}</span>
+              </span>
+            </div>
+            <div className="member-stats-item ">
+              <span>
+                {data.balance > 0 ? "Payable:" : "Receivable:"} {data.balance}
+              </span>
+              <span>No. of commetti received: {data.numCommettiReceived}</span>
+            </div>
+          </>
+        ) : (
+          <span className="text-center">Nothing recieved or paid</span>
+        )}
+      </div>
+      <span
+        className={`absolute rounded-full ${status} bg-opacity-60 p-1 text-sm -left-2 -top-2`}
+      >
+        {index}
+      </span>
+    </div>
+  );
+}
+function CommettiStats({ data, commettiPaidLength, participantLength }) {
+  return (
+    <div className="px-2 pb-2 flex flex-col text-lg">
+      <div>Total amount received: {data.totalReceived}</div>
+      <div>Total amount paid: {data.totalPaid}</div>
+      <div>
+        {data.balance == 0
+          ? "No balance:"
+          : data.balance > 0
+          ? "Payable balance:"
+          : "Receivable balance:"}{" "}
+        {data.balance}
+      </div>
+
+      <div>commetti members: {participantLength} </div>
+      <div>Commetti paid to {commettiPaidLength.yes} members</div>
+      <div>{commettiPaidLength.no} members to be paid</div>
+    </div>
+  );
+}
+function CommettiPaymentStatus({ data }) {
+  const paid = " line-through text-stone-500";
+  return (
+    <ul className="flex space-y-1 hover:shadow-md shadow-gray-500 hover:border-y px-2">
+      <li className={`${data.commettiPaid === "yes" ? paid : ""}`}>
+        {data.name} |{" "}
+        {data.commettiPaid === "yes"
+          ? `Payment month: ${formatDates(data.month, "mm-yyyy")}`
+          : "Commetti to be paid"}
+      </li>
+    </ul>
+  );
+}
 
 function TransactionList({ data, index }) {
   return (
     <div className="border rounded-xl flex flex-col p-4 relative space-y-2">
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between">
         <span>Date: {formatDates(data.date)}</span>
         <span>Month: {formatDates(data.month, "mm-yyyy")}</span>
       </div>
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between">
         <span>Amount: {data.amount}</span>
         <span>Posted by: {data.postedBy?.name} </span>
       </div>
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between">
         <span>Received from: {data.participant.name}</span>
         <span>Commetti: {data.commetti.name} </span>
       </div>
       {data?.paidAmount && (
-        <div className="flex justify-between   ">
+        <div className="flex flex-col sm:flex-row justify-between   ">
           <span>Payment date: {formatDates(data.paymentDate)}</span>
           <span>Paid amount: {data.paidAmount}</span>
           <span className="absolute -top-1 -right-1 flex h-3 w-3">
@@ -87,5 +168,39 @@ function TransactionList({ data, index }) {
     </div>
   );
 }
+function CommettiList({ data, index }) {
+  return (
+    <div className="border rounded-xl flex flex-col p-4 relative space-y-2">
+      <div className="flex flex-col sm:flex-row justify-between">
+        <span>Name: {data.name}</span>
+        <span>Total amount: {data.totalAmount}</span>
+      </div>
+      <div className="flex flex-col sm:flex-row justify-between">
+        <span>Monthly amount: {data.monthlyAmount}</span>
+        <span>Duration: {data.durationMonths} months </span>
+      </div>
+      <div className="flex flex-col sm:flex-row justify-between">
+        <span>Start month: {formatDates(data.startMonth, "mm-yyyy")}</span>
+        <span>End Month: {formatDates(data.endMonth, "mm-yyyy")} </span>
+      </div>
 
-export { AssistanList, MemberList, TransactionList };
+      <div className="flex flex-col sm:flex-row justify-between   ">
+        <span>Members: {data.participant.length}</span>
+      </div>
+
+      <span className="rounded-full p-1 bg-gray-400 absolute -top-4 -left-2 text-xs">
+        {index}
+      </span>
+    </div>
+  );
+}
+
+export {
+  AssistanList,
+  MemberList,
+  TransactionList,
+  CommettiList,
+  MemberStatsList,
+  CommettiStats,
+  CommettiPaymentStatus,
+};

@@ -12,21 +12,11 @@ const signJWT = (id) => {
   });
 };
 
-const cookieOptions = {
-  httpOnly: true,
-  secure: true,
-  sameSite: "None",
-  expires: new Date(
-    Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-  ),
-};
-
 exports.signup = async (req, res) => {
   try {
     if (req.user) {
       req.body = { admin: req.user?._id, role: "assistant", ...req.body };
     }
-    // const { name, email, password, passwordConfirm, role = "admin" } = req.body;
 
     const user = await User.create({
       ...req.body,
@@ -39,8 +29,6 @@ exports.signup = async (req, res) => {
     if (process.env.NODE_ENV === "production") {
       cookieOptions.secure = true;
     }
-
-    // res.cookie("jwt", token, cookieOptions);
 
     res.status(201).json({ status: "success", data: { user } });
   } catch (err) {
@@ -62,14 +50,7 @@ exports.login = async (req, res, next) => {
       return next(new AppError("Email or password incorrect", 401));
     }
 
-    if (process.env.NODE_ENV === "production") {
-      cookieOptions.secure = true;
-    }
-
     const token = signJWT({ id: user._id, name: user.name, role: user.role });
-    console.log("hitted log in");
-
-    // res.cookie("jwt", token, cookieOptions);
 
     res.status(200).json({ status: "success", message: "logged in", token });
   } catch (err) {
@@ -81,14 +62,8 @@ exports.logout = (req, res) => {
   const token = jwt.sign({ id: "loggedout" }, "loggedout", {
     expiresIn: 1,
   });
-  // res.cookie("jwt", token, {
-  //   expires: new Date(Date.now() + 3 * 1000),
 
-  //   httpOnly: true,
-  //   secure: true,
-  // });
-
-  res.status(200).json({ message: "success", token });
+  res.status(200).json({ message: "success" });
 };
 
 exports.protect = async (req, res, next) => {

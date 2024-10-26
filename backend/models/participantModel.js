@@ -25,10 +25,10 @@ participantSchema.index(
   { user: 1, mobile: 1 },
   { unique: [true, "Participant exist with this mobile number"] }
 );
-participantSchema.index(
-  { user: 1, cnic: 1 },
-  { unique: [true, "Participant exist with this CNIC"] }
-);
+// participantSchema.index(
+//   { user: 1, cnic: 1 },
+//   { unique: [true, "Participant exist with this CNIC"] }
+// );
 
 participantSchema.virtual("commetti", {
   ref: "Commetti",
