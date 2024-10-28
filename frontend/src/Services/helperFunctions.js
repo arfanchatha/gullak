@@ -45,3 +45,13 @@ export const addMissingParticipantInTransStats = (arr1, arr2) => {
 
   return result;
 };
+
+export const transactionsSortByMonthDate = (data) => {
+  return data
+    .sort((a, b) => {
+      return new Date(b.month) - new Date(a.month);
+    })
+    .sort((a, b) => {
+      return new Date(b.date) - new Date(a.date);
+    });
+};

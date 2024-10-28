@@ -10,14 +10,13 @@ const cookieResponse = {
 
 export const getAllCommettis = async function ({ queryKey }) {
   try {
-    const [, { status }] = queryKey;
+    // const [, { status }] = queryKey;
 
-    const response = await axios.get(`${backendAPI}api/v1/commetti`, {
-      ...cookieResponse,
-      params: {
-        status,
-      },
-    });
+    const response = await axios.get(
+      `${backendAPI}api/v1/commetti`,
+      cookieResponse
+    );
+
     return response;
   } catch (err) {
     throw new Error(err?.message);
@@ -39,6 +38,18 @@ export const createCommetti = function (data) {
     const response = axios.post(
       `${backendAPI}api/v1/commetti`,
       data,
+      cookieResponse
+    );
+    return response;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const deleteCommetti = (id) => {
+  try {
+    const response = axios.delete(
+      `${backendAPI}api/v1/commetti/${id}`,
       cookieResponse
     );
     return response;

@@ -60,7 +60,9 @@ commettiSchema.pre("save", function (next) {
   if (this.startMonth && this.durationMonths && this.monthlyAmount) {
     const start = new Date(this.startMonth);
 
-    const end = new Date(start.setMonth(start.getMonth() + this.durationMonths))
+    const end = new Date(
+      start.setMonth(start.getMonth() + (this.durationMonths - 1))
+    )
       .toISOString()
       .split("-")
       .slice(0, 2)
@@ -88,7 +90,7 @@ commettiSchema.virtual("transaction", {
 commettiSchema.pre(/^find/, function (next) {
   this.populate({
     path: "user",
-    select: "name",
+    select: "name email role",
   });
   next();
 });

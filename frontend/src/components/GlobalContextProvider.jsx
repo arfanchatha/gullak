@@ -2,12 +2,17 @@ import { getCookie } from "../Services/helperFunctions";
 import { jwtDecode } from "jwt-decode";
 import GlobalContext from "./GlobalContext";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { userMe } from "../Services/ApiFetching/userApiFetch";
 import Cookies from "js-cookie";
-import { getAllCommettis } from "../Services/ApiFetching/commettiApiFetch";
+import {
+  deleteCommetti,
+  getAllCommettis,
+} from "../Services/ApiFetching/commettiApiFetch";
+import toast from "react-hot-toast";
 
 function GlobalContextProvider({ children }) {
+  const queryClient = useQueryClient();
   const [jwt, setJwt] = useState(Cookies.get("jwt"));
   const {
     data: user,
@@ -42,9 +47,17 @@ function GlobalContextProvider({ children }) {
 
   const fetchCommApi = loggedInUser ? true : false;
   const queryAllCommettis = useQuery({
-    queryKey: ["getAllCommettis", { status: "inProgress" }],
+    queryKey: ["getAllCommettis"],
     queryFn: getAllCommettis,
     enabled: fetchCommApi,
+  });
+
+  const { mutate: deleteCommettiMutate } = useMutation({
+    mutationFn: deleteCommetti,
+    onSuccess: () => {
+      toast.success("Commetti deleted");
+      queryClient.invalidateQueries("getAllCommettis");
+    },
   });
 
   return (
@@ -57,6 +70,7 @@ function GlobalContextProvider({ children }) {
         userName: currentUser?.name,
         loggedInUser,
         queryAllCommettis,
+        deleteCommettiMutate,
       }}
     >
       {children}

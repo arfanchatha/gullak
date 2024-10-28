@@ -6,6 +6,7 @@ import { getAllCommettis } from "../../Services/ApiFetching/commettiApiFetch";
 import { useQuery } from "@tanstack/react-query";
 import { TransactionList } from "../../UI/DisplayList";
 import { useGlobalContextProps } from "../../hooks/useGlobalContextProps";
+import { transactionsSortByMonthDate } from "../../Services/helperFunctions";
 
 const selectData = [
   { select: "In progress", value: "inProgress" },
@@ -22,9 +23,21 @@ function Transactions() {
 
   const { data, error, isPending } = queryAllCommettis;
 
-  const commettisData = data?.data?.data.commettis;
+  const commettisData = data ? data?.data?.data.commettis : [];
 
-  const transactions = commettisData?.flatMap((item) => item.transaction);
+  const filterCommettiFunc = (data) => {
+    if (filterTrans === "inProgress") {
+      return commettisData.filter((item) => item.status === "inProgress");
+    } else if (filterTrans === "completed") {
+      return commettisData.filter((item) => item.status === "completed");
+    } else if (filterTrans === "all") {
+      return commettisData;
+    }
+  };
+
+  const filteredCommetti = filterCommettiFunc(commettisData);
+  const transactions = filteredCommetti?.flatMap((item) => item.transaction);
+  const sortedTransactions = transactionsSortByMonthDate(transactions);
 
   const onChangeCheckBox = () => {
     setAutoCloseModal((open) => !open);
@@ -35,14 +48,14 @@ function Transactions() {
   };
 
   function searchByValue(value) {
-    return transactions?.filter((obj) => {
+    return sortedTransactions?.filter((obj) => {
       return Object.values(obj).some(
         (val) => typeof val === "string" && val.includes(value)
       );
     });
   }
 
-  const searched = searchByValue(searchTransaction) || transactions;
+  const searched = searchByValue(searchTransaction) || sortedTransactions;
 
   return (
     <>

@@ -8,9 +8,15 @@ import {
   addMissingParticipantInTransStats,
   mergArrayOfObjects,
 } from "../../Services/helperFunctions";
-import { CommettiPaymentStatus, CommettiStats } from "../../UI/DisplayList";
+import {
+  AssistanList,
+  CommettiPaymentStatus,
+  CommettiStats,
+} from "../../UI/DisplayList";
 import MemberStats from "../../components/commetti/commettiDetails/MemberStats";
 import { MenuNavButton } from "../../UI/UISmallComponents";
+import AssistantCommetti from "../../components/commetti/commettiDetails/AssistantCommetti";
+import TransactionsCommetti from "../../components/commetti/commettiDetails/TransactionsCommetti";
 
 const btns = ["Members", "Transactions", "Assistants"];
 
@@ -108,11 +114,10 @@ function CommettiDetails() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setAccordionStatus({ stats: true, status: true });
-      } else {
-        setAccordionStatus({ stats: false, status: false });
-      }
+      setAccordionStatus((prevStatus) => ({
+        stats: window.innerWidth >= 1024 ? true : prevStatus.stats,
+        status: window.innerWidth >= 1024 ? true : prevStatus.status,
+      }));
     };
 
     handleResize();
@@ -207,8 +212,12 @@ function CommettiDetails() {
         </div>
         <div className="lg:w-3/5">
           {activeTab === "Members" && <MemberStats memberStats={memberStats} />}
-          {activeTab === "Transactions" && <span>transactions</span>}
-          {activeTab === "Assistants" && <span>assistans</span>}
+          {activeTab === "Transactions" && (
+            <TransactionsCommetti data={commettiData?.transaction} />
+          )}
+          {activeTab === "Assistants" && (
+            <AssistantCommetti data={commettiData?.user} />
+          )}
         </div>
       </div>
     </div>

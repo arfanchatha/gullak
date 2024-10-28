@@ -31,6 +31,11 @@ router
     authController.protect,
     authController.restricTo("admin"),
     commettiController.updateCommetti
+  )
+  .delete(
+    authController.protect,
+    authController.restricTo("admin"),
+    commettiController.deleteCommetti
   );
 
 module.exports = router;

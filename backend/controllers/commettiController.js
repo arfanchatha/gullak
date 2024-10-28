@@ -4,6 +4,7 @@ const User = require("../models/userModel");
 const mongoose = require("mongoose");
 
 const APIFeatures = require("../utils/apiFeatures");
+const Transaction = require("../models/transactionModel");
 
 exports.getAllCommetties = async (req, res) => {
   try {
@@ -16,7 +17,7 @@ exports.getAllCommetties = async (req, res) => {
       .selectFields()
       .paginate();
 
-    const commettis = await features.mongoQuery.select("-user").populate({
+    const commettis = await features.mongoQuery.populate({
       path: "transaction",
       // select: "createdAt participant commetti amount month postedBy",
     });
@@ -141,5 +142,25 @@ exports.updateCommetti = async (req, res, next) => {
       status: "fail",
       message: err.message,
     });
+  }
+};
+
+exports.deleteCommetti = async (req, res, next) => {
+  try {
+    console.log(req.params.id);
+    await Transaction.deleteMany({ commetti: req.params.id });
+
+    await Commetti.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      status: "success",
+    });
+  } catch (err) {
+    next(
+      new AppError(
+        `Error deleting commetti and transactions: ${err.message}`,
+        500
+      )
+    );
   }
 };

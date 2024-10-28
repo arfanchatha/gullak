@@ -1,4 +1,7 @@
+import { HiOutlineSquares2X2 } from "react-icons/hi2";
 import { formatDates } from "../helper/formats";
+import { useGlobalContextProps } from "../hooks/useGlobalContextProps";
+import { IoMdOptions } from "react-icons/io";
 
 function AssistanList({ data, index }) {
   return (
@@ -15,16 +18,20 @@ function AssistanList({ data, index }) {
           Email: <span>{data?.email}</span>
         </span>
       </div>
-      <span className="absolute rounded-full bg-green-300 bg-opacity-60 p-1 text-sm -left-2 -top-2">
-        {index}
-      </span>
-      <span
-        className={`absolute rounded-full  bg-opacity-60 p-1 text-sm -right-2 -bottom-2 ${
-          data?.active ? " bg-blue-200" : " bg-red"
-        }`}
-      >
-        {data?.active ? "Active" : "In active"}
-      </span>
+      {index && (
+        <>
+          <span className="absolute rounded-full bg-green-300 bg-opacity-60 p-1 text-sm -left-2 -top-2">
+            {index}
+          </span>
+          <span
+            className={`absolute rounded-full  bg-opacity-60 p-1 text-sm -right-2 -bottom-2 ${
+              data?.active ? " bg-blue-200" : " bg-red"
+            }`}
+          >
+            {data?.active ? "Active" : "In active"}
+          </span>
+        </>
+      )}
     </div>
   );
 }
@@ -57,7 +64,7 @@ function MemberList({ data, index }) {
 }
 function MemberStatsList({ data, index }) {
   const status = data.numCommettiReceived
-    ? data.balance > 0
+    ? data.balance >= 0
       ? " bg-green-300"
       : " bg-red"
     : " bg-green-300";
@@ -92,7 +99,7 @@ function MemberStatsList({ data, index }) {
             </div>
           </>
         ) : (
-          <span className="text-center">Nothing recieved or paid</span>
+          <span className="text-center">No transaction</span>
         )}
       </div>
       <span
@@ -138,6 +145,9 @@ function CommettiPaymentStatus({ data }) {
 }
 
 function TransactionList({ data, index }) {
+  if (!data) {
+    return <div>Currently there is no transaction</div>;
+  }
   return (
     <div className="border rounded-xl flex flex-col p-4 relative space-y-2">
       <div className="flex flex-col sm:flex-row justify-between">
@@ -154,8 +164,8 @@ function TransactionList({ data, index }) {
       </div>
       {data?.paidAmount && (
         <div className="flex flex-col sm:flex-row justify-between   ">
-          <span>Payment date: {formatDates(data.paymentDate)}</span>
           <span>Paid amount: {data.paidAmount}</span>
+          <span>Payment date: {formatDates(data.paymentDate)}</span>
           <span className="absolute -top-1 -right-1 flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500 "></span>
@@ -168,7 +178,9 @@ function TransactionList({ data, index }) {
     </div>
   );
 }
-function CommettiList({ data, index }) {
+function DisplayCommettiList({ data, index }) {
+  const { loggedInUser } = useGlobalContextProps();
+
   return (
     <div className="border rounded-xl flex flex-col p-4 relative space-y-2">
       <div className="flex flex-col sm:flex-row justify-between">
@@ -191,6 +203,15 @@ function CommettiList({ data, index }) {
       <span className="rounded-full p-1 bg-gray-400 absolute -top-4 -left-2 text-xs">
         {index}
       </span>
+      {loggedInUser.role === "admin" && (
+        <span
+          className="hover:text-cyan absolute -right-3 -top-5 p-1"
+          id="commetti-list-options"
+          // onClick={(e) => handleOptions(e, data.id)}
+        >
+          <IoMdOptions size={25} />
+        </span>
+      )}
     </div>
   );
 }
@@ -199,7 +220,7 @@ export {
   AssistanList,
   MemberList,
   TransactionList,
-  CommettiList,
+  DisplayCommettiList,
   MemberStatsList,
   CommettiStats,
   CommettiPaymentStatus,

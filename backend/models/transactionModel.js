@@ -51,8 +51,8 @@ transactionSchema.pre(/^find/, function (next) {
 transactionSchema.pre("save", async function (next) {
   const transaction = this;
 
-  // Check if a transaction with the same participantId and month already exists
   const existingTransaction = await mongoose.models.Transaction.findOne({
+    commetti: transaction.commetti,
     participant: transaction.participant,
     month: transaction.month,
   });
@@ -61,9 +61,9 @@ transactionSchema.pre("save", async function (next) {
     const error = new Error(
       `A transaction for the selected participant for the same month already exists, please change the month or participant`
     );
-    next(error); // Pass the error to the next middleware
+    next(error);
   } else {
-    next(); // Proceed with the save operation
+    next();
   }
 });
 
