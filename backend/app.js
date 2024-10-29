@@ -20,8 +20,10 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+app.set("trust proxy", 1); // Enables trusting first proxy for render hosting
+
 const limiter = rateLimit({
-  max: 10000,
+  max: 200,
   windowMs: 60 * 60 * 1000,
   message: "Too many requests from this IP, please try again in an hour",
 });

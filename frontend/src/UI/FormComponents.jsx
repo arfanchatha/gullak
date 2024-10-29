@@ -1,4 +1,4 @@
-import { HiEye, HiEyeSlash } from "react-icons/hi2";
+import { HiEye, HiEyeSlash, HiMagnifyingGlass } from "react-icons/hi2";
 
 function InputFieldSingle({
   label,
@@ -18,7 +18,7 @@ function InputFieldSingle({
         id={field}
         value={value}
         {...register(field, validation)}
-        className="px-3 py-2 border rounded-lg placeholder:pl-1"
+        className="px-3 py-2 border rounded-lg placeholder:pl-1 w-full"
       />
     </div>
   );
@@ -88,10 +88,31 @@ function FormSubmitButton({ label, pendingLabel, type, isPending }) {
     </button>
   );
 }
+function SearchBox({ visible, placeholder, handleClick, design, value }) {
+  return (
+    <div
+      className={`${
+        visible ? "invisible " : "visible transition duration-200 "
+      } relative items-center border rounded-lg group`}
+    >
+      <span className="absolute left-2 top-2 group-hover:text-cyan">
+        <HiMagnifyingGlass size={30} />
+      </span>
+      <input
+        type="text"
+        value={value}
+        placeholder={placeholder}
+        onClick={handleClick}
+        className="p-3 focus:outline-none w-full rounded-lg group-hover:cursor-pointer caret-white placeholder:pl-7"
+      />
+    </div>
+  );
+}
 
 export {
   InputFieldSingle,
   InputFieldPassword,
   FormSubmitButton,
   InputSelectFields,
+  SearchBox,
 };

@@ -5,6 +5,7 @@ import { formatDates } from "../helper/formats";
 import Modal from "../components/Modal";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import ErrorInForm from "../UI/ErrorInForm";
+import { SearchBox } from "../UI/FormComponents";
 
 function MemberArea() {
   const {
@@ -154,18 +155,11 @@ function MemberArea() {
               </form>
               {error && <ErrorInForm message={error} />}
             </Modal>
-            <div className="flex items-center border rounded-lg pl-2 group">
-              <span className="">
-                <HiMagnifyingGlass size={25} />
-              </span>
-              <input
-                type="text"
-                // value=""
-                placeholder="Please click here to search member"
-                onClick={handleModalOpen}
-                className={`py-3 px-2 focus:outline-none w-full rounded-lg group-hover:cursor-pointer caret-white`}
-              />
-            </div>
+            <SearchBox
+              handleClick={handleModalOpen}
+              placeholder={"Click here to search"}
+              visible={isOpenModal}
+            />
           </div>
           {memberData?.member && (
             <>

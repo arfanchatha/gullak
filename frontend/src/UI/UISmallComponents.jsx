@@ -38,10 +38,10 @@ function CheckBox({ checked, onChangeCheckBox, title }) {
 }
 function SelectFilter({ data, handleChange, label }) {
   return (
-    <div className="space-x-3 border rounded px-3  group bg-gray-100 shadow shadow-gray-400">
+    <div className="space-x-3 border rounded pl-3  group bg-gray-100 shadow shadow-gray-400">
       <label htmlFor="filter">{label}</label>
       <select
-        className="rounded-lg bg-inherit focus:outline-none group-hover:cursor-pointer p-2 border-l "
+        className="rounded-lg bg-inherit focus:outline-none group-hover:cursor-pointer py-2 pl-2 border-l"
         onChange={handleChange}
       >
         {data.map((elem) => (

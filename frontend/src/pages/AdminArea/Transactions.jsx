@@ -79,7 +79,7 @@ function Transactions() {
             <div className="border-2 rounded-full border-gray-600">
               <input
                 placeholder="Search"
-                className="p-2 rounded-full focus:outline-none placeholder:pl-1"
+                className="p-2 rounded-full focus:outline-none placeholder:pl-1 w-full"
                 value={searchTransaction}
                 onChange={(e) => setSearchTransaction(e.target.value)}
               />
