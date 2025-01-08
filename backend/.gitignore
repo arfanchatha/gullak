@@ -24,6 +24,9 @@ dev-data/
 .env.local
 config.env
 
+# Ignore node version file
+.nvmrc
+
 # Node.js specific ignore (if applicable)
 node_modules/
 npm-debug.log
